@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">CisnW Artist</string>
+    <string name="app_description">Âm nhạc dành cho mọi người</string>
+    <string name="hello_blank_fragment">""</string>
+
+    <!-- Menu items for bottom navigation bar -->
+    <string name="menu_item_home">Trang chủ</string>
+    <string name="menu_item_search">Tìm kiếm</string>
+    <string name="menu_item_library">Thư viện</string>
+
+    <!-- Menu item for tab layout in Library -->
+    <string name="menu_item_my_playlist">Danh sách phát của tôi</string>
+    <string name="menu_item_my_favourite">Bài hát yêu thích</string>
+
+
+    <string name="label_add_new_playlist">Tạo danh sách phát mới</string>
+    <string name="label_add_new_favourite">Thêm bài hát yêu thích</string>
+    <string name="label_songs">%d bài hát</string>
+    <string name="label_enter_otp">Nhập mã OTP</string>
+
+    <!-- Button label -->
+    <string name="button_signup">Đăng ký</string>
+    <string name="button_login">Đăng nhập</string>
+    <string name="button_continue">Tiếp tục</string>
+    <string name="button_verify">Xác nhận</string>
+    <string name="button_get_otp">Get Otp</string>
+
+    <string name="label_forget_password">Quên mật khẩu?</string>
+    <string name="button_reset_password">Lấy lại mật khẩu</string>
+    <string name="label_not_have_account">Chưa có tài khoản?</string>
+    <string name="label_have_account">Đã có tài khoản?</string>
+    <string name="label_gender">Giới tính</string>
+
+    <!-- InputField -->
+    <string name="hint_email">Nhập email của bạn</string>
+    <string name="hint_password">Nhập mật khẩu của bạn</string>
+    <string name="hint_retype_password">Nhập lại mật khẩu của bạn</string>
+    <string name="hint_new_password">Nhập mật khẩu mới của bạn</string>
+    <string name="hint_retype_new_password">Nhập lại mật khẩu mới của bạn</string>
+    <string name="hint_nickname">Nhập nghệ danh</string>
+    <string name="hint_surname">Nhập họ</string>
+    <string name="hint_firstname">Nhập tên</string>
+    <string name="hint_phone_number">Nhập số điện thoại của bạn</string>
+    <string name="check_box_remember">Ghi nhớ đăng nhập</string>
+    <string name="helper_text_email">Email này được sử dụng để đăng nhập tài khoản của bạn</string>
+    <string name="helper_text_password">Mật khẩu tối thiểu 6 kí tự, bao gồm cả chữ cái viết hoa, viết thường, chữ số và kí tự đặc biệt</string>
+    <string name="error_required_field">Vui lòng nhập trường này</string>
+    <string name="error_invalid_email">Vui lòng nhập email hợp lệ</string>
+    <string name="error_invalid_phone">Vui lòng nhập số điện thoại hợp lệ</string>
+    <string name="error_invalid_password">Vui lòng nhập mật khẩu hợp lệ</string>
+    <string name="error_password_not_match">Mật khẩu không khớp</string>
+
+    <string name="radio_choice_male">Nam</string>
+    <string name="radio_choice_female">Nữ</string>
+
+</resources>
