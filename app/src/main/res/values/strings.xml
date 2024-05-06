@@ -53,4 +53,6 @@
     <string name="radio_choice_male">Nam</string>
     <string name="radio_choice_female">Nữ</string>
 
+    <string name="notification_register">Bạn đã đăng ký tài khoản thành công! Vui lòng liên hệ với CisnW để được xác nhận tài khoản của bạn!</string>
+
 </resources>

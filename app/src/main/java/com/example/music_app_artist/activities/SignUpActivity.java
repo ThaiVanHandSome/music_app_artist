@@ -2,6 +2,7 @@ package com.example.music_app_artist.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -10,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.music_app_artist.R;
@@ -31,10 +34,12 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputLayout nickNameLayout, phoneNumberLayout, emailLayout, passwordLayout, passwordAgainLayout;
     private TextInputEditText nickNameTxt, phoneNumberTxt, emailTxt, passwordTxt, passwordAgainTxt;
     private MaterialButton btnSignUp;
+    private RadioGroup radioGroup;
     private FrameLayout overlay;
     private ProgressBar progressBar;
     private Validate validate = new Validate();
     private APIService apiService;
+    private int gender = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,17 @@ public class SignUpActivity extends AppCompatActivity {
         mapping();
 
         handleEvent();
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                RadioButton checkedRadioButton = findViewById(i);
+                if(checkedRadioButton != null) {
+                    String tag = checkedRadioButton.getTag().toString();
+                    gender = Integer.parseInt(tag);
+                }
+            }
+        });
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +89,9 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "Encounter Error!", Toast.LENGTH_SHORT).show();
                 }
                 Toast.makeText(SignUpActivity.this, res.getMessage(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SignUpActivity.this, OtpVerifyActivity.class);
+                intent.putExtra("type", "confirm");
+                startActivity(intent);
             }
 
             @Override
@@ -186,5 +205,6 @@ public class SignUpActivity extends AppCompatActivity {
         btnSignUp = (MaterialButton) findViewById(R.id.btnSignUp);
         overlay = (FrameLayout) findViewById(R.id.overlay);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
     }
 }
