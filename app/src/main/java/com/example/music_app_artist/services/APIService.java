@@ -9,11 +9,15 @@ import com.example.music_app_artist.models.RegisterResponse;
 import com.example.music_app_artist.models.ResetPasswordRequest;
 import com.example.music_app_artist.models.ResponseMessage;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface APIService {
@@ -32,4 +36,10 @@ public interface APIService {
 
     @PATCH("user/forgot-password")
     Call<ResponseMessage> changePassword(@Body ResetPasswordRequest resetPasswordRequest);
+
+    @Multipart
+    @POST("song/upload")
+    Call<ResponseMessage> uploadSong(@Part MultipartBody.Part imageFile,
+                                     @Part("name") String name,
+                                     @Part MultipartBody.Part resourceFile);
 }

@@ -24,6 +24,7 @@
     <string name="button_continue">Tiếp tục</string>
     <string name="button_verify">Xác nhận</string>
     <string name="button_get_otp">Get Otp</string>
+    <string name="button_upload">Upload</string>
 
     <string name="label_forget_password">Quên mật khẩu?</string>
     <string name="button_reset_password">Lấy lại mật khẩu</string>
@@ -41,6 +42,7 @@
     <string name="hint_surname">Nhập họ</string>
     <string name="hint_firstname">Nhập tên</string>
     <string name="hint_phone_number">Nhập số điện thoại của bạn</string>
+    <string name="hint_audio">Chọn tệp tin âm thanh</string>
     <string name="check_box_remember">Ghi nhớ đăng nhập</string>
     <string name="helper_text_email">Email này được sử dụng để đăng nhập tài khoản của bạn</string>
     <string name="helper_text_password">Mật khẩu tối thiểu 6 kí tự, bao gồm cả chữ cái viết hoa, viết thường, chữ số và kí tự đặc biệt</string>
@@ -54,5 +56,6 @@
     <string name="radio_choice_female">Nữ</string>
 
     <string name="notification_register">Bạn đã đăng ký tài khoản thành công! Vui lòng liên hệ với CisnW để được xác nhận tài khoản của bạn!</string>
-
+    <string name="default_song_name">Tên bài hát</string>
+    <string name="default_song_file">Tên tập tin</string>
 </resources>
