@@ -61,4 +61,6 @@
     <dimen name="card_height_56dp">56dp</dimen>
     <dimen name="card_height_72dp">72dp</dimen>
 
+    <dimen name="bottom_offset">64dp</dimen>
+
 </resources>

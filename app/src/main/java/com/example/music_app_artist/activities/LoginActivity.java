@@ -173,6 +173,8 @@ public class LoginActivity extends AppCompatActivity {
                 if(res.isSuccess()) {
                     User user = new User();
                     user.setFirstName(res.getFirstName());
+                    user.setNickname(res.getNickname());
+                    System.out.println(res.getNickname());
                     user.setLastName(res.getLastName());
                     user.setAvatar(res.getAvatar());
                     user.setEmail(res.getEmail());
@@ -181,7 +183,7 @@ public class LoginActivity extends AppCompatActivity {
                     user.setAccessToken(res.getAccessToken());
                     user.setRefreshToken(res.getRefreshToken());
                     SharePrefManagerUser.getInstance(getApplicationContext()).loginSuccess(user);
-                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, PublishActivity.class);
                     startActivity(intent);
                     finish();
                 }

@@ -1,8 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Music_app_artist" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryContainer">@color/primary</item>
+        <item name="colorOnPrimaryContainer">@color/neutral5</item>
+        <item name="colorOnSurfaceVariant">@color/neutral4</item>
+        <item name="colorOnSurface">@color/primary</item>
+        <item name="colorOnSecondaryContainer">@color/primary</item>
+        <item name="colorSurfaceContainerHighest">@color/neutral2</item>
+        <item name="colorError">@color/accent_error</item>
+        <item name="android:colorBackground">@color/neutral0</item>
+        <item name="android:statusBarColor">@color/neutral0</item>
+
+        <item name="fontFamily">@font/lexend_semibold</item>
     </style>
 
     <style name="Theme.Music_app_artist" parent="Base.Theme.Music_app_artist" />

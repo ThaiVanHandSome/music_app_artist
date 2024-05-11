@@ -2,6 +2,7 @@ package com.example.music_app_artist.models;
 
 public class LoginResponse {
     private int id;
+    private String nickname;
     private String firstName;
     private String lastName;
     private String email;
@@ -117,5 +118,13 @@ public class LoginResponse {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }
