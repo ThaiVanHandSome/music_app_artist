@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+    implementation ("com.fasterxml.jackson.core:jackson-databind:2.13.0")
     implementation ("com.android.support:multidex:1.0.3")
     implementation ("com.cloudinary:cloudinary-android:2.5.0")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")

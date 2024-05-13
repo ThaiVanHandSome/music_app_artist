@@ -4,104 +4,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.PublishSongActivity"
-    android:background="@color/neutral0"
-    android:paddingRight="@dimen/spacing_16dp"
-    android:paddingLeft="@dimen/spacing_16dp"
+    tools:context=".activities.PublishAlbumActivity"
+    android:padding="@dimen/spacing_16dp"
     >
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/spacing_16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             >
-            <ImageView
-                android:id="@+id/songImage"
-                android:layout_width="@dimen/image_240dp"
-                android:layout_height="@dimen/image_240dp"
-                android:src="@drawable/cover_picture" />
-
-            <EditText
-                android:id="@+id/songNameTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/default_song_name"
-                android:textSize="@dimen/font_display"
-                android:textStyle="bold"
-                android:layout_marginTop="@dimen/spacing_12dp"
-                android:textColor="@color/neutral5"
-                android:gravity="center"
-                />
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnChooseAudio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/hint_audio"
-                android:backgroundTint="@color/primary"
-                android:textColor="@color/neutral5"
-                android:layout_marginTop="@dimen/spacing_12dp"
-                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/spacing_4dp"
+                android:layout_marginTop="@dimen/spacing_16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 >
                 <ImageView
-                    android:layout_width="@dimen/image_56dp"
-                    android:layout_height="@dimen/image_56dp"
+                    android:id="@+id/albumImage"
+                    android:layout_width="@dimen/image_240dp"
+                    android:layout_height="@dimen/image_240dp"
                     android:src="@drawable/cover_picture" />
-                <TextView
-                    android:id="@+id/audioNameTxt"
+
+                <EditText
+                    android:id="@+id/albumNameTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/default_song_file"
+                    android:text="@string/default_album_name"
+                    android:textSize="@dimen/font_display"
                     android:textStyle="bold"
-                    android:textSize="@dimen/font_title"
+                    android:layout_marginTop="@dimen/spacing_12dp"
                     android:textColor="@color/neutral5"
-                    android:layout_marginLeft="@dimen/spacing_8dp"
+                    android:gravity="center"
                     />
             </LinearLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Chọn thể loại"
+                android:text="Danh sách bài hát"
                 android:textSize="@dimen/font_heading2"
                 android:textColor="@color/neutral5"
                 android:layout_marginTop="@dimen/spacing_16dp"
                 />
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/listCategory"
+                android:id="@+id/listSong"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_4dp"
                 />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Thêm vào album"
-                android:textSize="@dimen/font_heading2"
-                android:textColor="@color/neutral5"
-                android:layout_marginTop="@dimen/spacing_16dp"
-                />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/listAlbum"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_8dp"
-                />
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnUploadSong"
+                android:id="@+id/btnUploadAlbum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/button_upload"
@@ -109,7 +69,6 @@
                 android:textColor="@color/neutral5"
                 android:layout_marginTop="@dimen/spacing_12dp"/>
         </LinearLayout>
-
     </ScrollView>
     <FrameLayout
         android:id="@+id/overlay"
@@ -131,7 +90,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

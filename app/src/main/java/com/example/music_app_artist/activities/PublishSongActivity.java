@@ -5,6 +5,8 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -27,7 +29,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.music_app_artist.R;
+import com.example.music_app_artist.adapters.AlbumChooseAdapter;
+import com.example.music_app_artist.adapters.CategoryAdapter;
+import com.example.music_app_artist.decorations.BottomOffsetDecoration;
+import com.example.music_app_artist.internals.SharePrefManagerUser;
+import com.example.music_app_artist.models.Album;
+import com.example.music_app_artist.models.AlbumsResponse;
+import com.example.music_app_artist.models.CategoriesResponse;
+import com.example.music_app_artist.models.Category;
 import com.example.music_app_artist.models.ResponseMessage;
+import com.example.music_app_artist.models.User;
 import com.example.music_app_artist.retrofit.RetrofitClient;
 import com.example.music_app_artist.services.APIService;
 import com.example.music_app_artist.utils.MultipartUtil;
@@ -36,6 +47,8 @@ import com.google.android.material.button.MaterialButton;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -50,12 +63,18 @@ public class PublishSongActivity extends AppCompatActivity {
     private TextView audioNameTxt;
     private FrameLayout overlay;
     private ProgressBar progressBar;
+    private RecyclerView listAlbum, listCategory;
+    private AlbumChooseAdapter adapter;
+    private CategoryAdapter categoryAdapter;
     private Uri mUri;
     private Uri audioUri;
     private ActivityResultLauncher<String> mGetContent;
     private static final int REQUEST_CODE_PICK_MP3 = 1;
     private APIService apiService;
     private String imagePath, audioPath;
+    private List<Album> albums = new ArrayList<>();
+    private List<Category> categories = new ArrayList<>();
+    private User user;
 
     private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -100,6 +119,8 @@ public class PublishSongActivity extends AppCompatActivity {
 
         mapping();
 
+        user = SharePrefManagerUser.getInstance(this.getApplicationContext()).getUser();
+
         songImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,7 +146,84 @@ public class PublishSongActivity extends AppCompatActivity {
                 }
             }
         });
+
+        loadAlbums();
+
+        loadCategories();
     }
+
+    private void loadCategories() {
+        categoryAdapter = new CategoryAdapter(getApplicationContext(), categories, null);
+        listCategory.setAdapter(categoryAdapter);
+        listCategory.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        listCategory.addItemDecoration(new BottomOffsetDecoration(getResources().getDimensionPixelSize(R.dimen.bottom_offset)));
+        getAllCategories();
+    }
+
+    private void getAllCategories() {
+        apiService = RetrofitClient.getRetrofit().create(APIService.class);
+        apiService.getAllCategories().enqueue(new Callback<CategoriesResponse>() {
+            @Override
+            public void onResponse(Call<CategoriesResponse> call, Response<CategoriesResponse> response) {
+                CategoriesResponse res = response.body();
+                assert res != null;
+                if(res.isSuccess()) {
+                    categories = res.getData();
+                    categoryAdapter = new CategoryAdapter(getApplicationContext(), categories, new CategoryAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(Category category) {
+
+                        }
+                    });
+                    listCategory.setAdapter(categoryAdapter);
+                    categoryAdapter.notifyDataSetChanged();
+                }
+                Toast.makeText(PublishSongActivity.this, res.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<CategoriesResponse> call, Throwable t) {
+                Toast.makeText(PublishSongActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadAlbums() {
+        adapter = new AlbumChooseAdapter(getApplicationContext(), albums, null);
+        listAlbum.setAdapter(adapter);
+        listAlbum.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        listAlbum.addItemDecoration(new BottomOffsetDecoration(getResources().getDimensionPixelSize(R.dimen.bottom_offset)));
+        getAllAlbums();
+    }
+
+    private void getAllAlbums() {
+        apiService = RetrofitClient.getRetrofit().create(APIService.class);
+
+        apiService.getAlbumsByIdArtist((long) user.getId()).enqueue(new Callback<AlbumsResponse>() {
+            @Override
+            public void onResponse(Call<AlbumsResponse> call, Response<AlbumsResponse> response) {
+                AlbumsResponse res = response.body();
+                assert res != null;
+                if(res.isSuccess()) {
+                    albums = res.getData();
+                    adapter = new AlbumChooseAdapter(getApplicationContext(), albums, new AlbumChooseAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(Album albums) {
+
+                        }
+                    });
+                    listAlbum.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AlbumsResponse> call, Throwable t) {
+                Toast.makeText(PublishSongActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void hideOverlay() {
         overlay.setVisibility(View.INVISIBLE);
         overlay.setFocusable(false);
@@ -148,12 +246,17 @@ public class PublishSongActivity extends AppCompatActivity {
         MultipartBody.Part resourcePart = MultipartUtil.createMultipartFromUri(this, audioUri, "resourceFile", "audio_file.mp3");
 
 
-        apiService.uploadSong(imagePart, songNameTxt.getText().toString(), resourcePart).enqueue(new Callback<ResponseMessage>() {
+        apiService.uploadSong(imagePart, songNameTxt.getText().toString(), (long) categoryAdapter.getCheckedIdCategory(), (long) adapter.getCheckedIdAlbum(), resourcePart).enqueue(new Callback<ResponseMessage>() {
             @Override
             public void onResponse(Call<ResponseMessage> call, Response<ResponseMessage> response) {
                 hideOverlay();
                 ResponseMessage res = response.body();
                 Toast.makeText(PublishSongActivity.this, res.getMessage(), Toast.LENGTH_SHORT).show();
+                if(res.isSuccess()) {
+                    Intent intent = new Intent(PublishSongActivity.this, PublishActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
 
             @Override
@@ -207,5 +310,7 @@ public class PublishSongActivity extends AppCompatActivity {
         audioNameTxt = (TextView) findViewById(R.id.audioNameTxt);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         overlay = (FrameLayout) findViewById(R.id.overlay);
+        listAlbum = (RecyclerView) findViewById(R.id.listAlbum);
+        listCategory = (RecyclerView) findViewById(R.id.listCategory);
     }
 }

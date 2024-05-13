@@ -3,7 +3,6 @@ package com.example.music_app_artist.models;
 import com.google.gson.annotations.SerializedName;
 
 public class Album {
-
     @SerializedName("idAlbum")
     private Long idAlbum;
     @SerializedName("image")
