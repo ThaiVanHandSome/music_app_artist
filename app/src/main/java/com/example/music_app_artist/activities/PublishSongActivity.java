@@ -4,6 +4,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -27,15 +28,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.music_app_artist.R;
+import com.example.music_app_artist.adapters.SongAdapter;
+import com.example.music_app_artist.internals.SharePrefManagerUser;
+import com.example.music_app_artist.models.DefaultResponse;
+import com.example.music_app_artist.models.FollowerResponse;
+import com.example.music_app_artist.models.NotificationFirebase;
 import com.example.music_app_artist.models.ResponseMessage;
+import com.example.music_app_artist.models.Song;
+import com.example.music_app_artist.models.SongResponse;
+import com.example.music_app_artist.models.UploadResponse;
+import com.example.music_app_artist.models.User;
 import com.example.music_app_artist.retrofit.RetrofitClient;
 import com.example.music_app_artist.services.APIService;
 import com.example.music_app_artist.utils.MultipartUtil;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -56,6 +72,12 @@ public class PublishSongActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_PICK_MP3 = 1;
     private APIService apiService;
     private String imagePath, audioPath;
+    
+    private List<Long> ids;
+
+    Song song;
+
+    User user;
 
     private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -97,9 +119,9 @@ public class PublishSongActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish_song);
-
         mapping();
-
+        user = SharePrefManagerUser.getInstance(this).getUser();
+        sendNotification();
         songImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,16 +170,17 @@ public class PublishSongActivity extends AppCompatActivity {
         MultipartBody.Part resourcePart = MultipartUtil.createMultipartFromUri(this, audioUri, "resourceFile", "audio_file.mp3");
 
 
-        apiService.uploadSong(imagePart, songNameTxt.getText().toString(), resourcePart).enqueue(new Callback<ResponseMessage>() {
+        apiService.uploadSong(imagePart, songNameTxt.getText().toString(), resourcePart).enqueue(new Callback<UploadResponse>() {
             @Override
-            public void onResponse(Call<ResponseMessage> call, Response<ResponseMessage> response) {
+            public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
                 hideOverlay();
-                ResponseMessage res = response.body();
-                Toast.makeText(PublishSongActivity.this, res.getMessage(), Toast.LENGTH_SHORT).show();
+                Song song = response.body().getData();
+                Log.e("Thanh123", String.valueOf(song));
+//                sendNotification(,);
             }
 
             @Override
-            public void onFailure(Call<ResponseMessage> call, Throwable t) {
+            public void onFailure(Call<UploadResponse> call, Throwable t) {
                 hideOverlay();
                 Log.d("error", t.toString());
                 Toast.makeText(PublishSongActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
@@ -207,5 +230,56 @@ public class PublishSongActivity extends AppCompatActivity {
         audioNameTxt = (TextView) findViewById(R.id.audioNameTxt);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         overlay = (FrameLayout) findViewById(R.id.overlay);
+    }
+
+    private  void sendNotification(){
+        apiService = RetrofitClient.getRetrofit().create(APIService.class);
+        apiService.getAllFollowers((long) user.getId()).enqueue(new Callback<FollowerResponse>() {
+            @Override
+            public void onResponse(Call<FollowerResponse> call, Response<FollowerResponse> response) {
+                FollowerResponse res = response.body();
+                assert res != null;
+                if(res.getSuccess()) {
+                    ids = res.getData();
+                    Log.e("NotificationFirebase", ids.toString());
+                    if (ids != null && !ids.isEmpty()) {
+                        Log.e("NotificationFirebase", ids.toString());
+                        FirebaseDatabase database = FirebaseDatabase.getInstance("https://music-app-967da-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                        Log.e("NotificationFirebase", database.toString());
+                        for (int i = 0; i < ids.size(); i++) {
+                            int id = Math.toIntExact(ids.get(i));
+                            final DatabaseReference countRef = database.getReference("index").child(String.valueOf(id));
+                            countRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    Long notiCount = (Long) snapshot.getValue();
+                                    if (notiCount == null) {
+                                        notiCount = 0L;
+                                    }
+                                    String notiCountString = String.valueOf(notiCount);
+                                    DatabaseReference notiRef = database.getReference("user");
+                                    NotificationFirebase noti = new NotificationFirebase(2, "Chúng ta của hiện tại", "Thanh", "https://res.cloudinary.com/dxaobwm8l/image/upload/v1710701320/images/album_99.jpg");
+                                    notiRef.child(String.valueOf(id)).child("notification").child(notiCountString).setValue(noti);
+                                    notiCount++;
+                                    countRef.setValue(notiCount);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<FollowerResponse> call, Throwable t) {
+
+            }
+        });
     }
 }
