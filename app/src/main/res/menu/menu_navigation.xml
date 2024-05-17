@@ -13,3 +13,4 @@
         android:title="@string/menu_item_library"
         android:icon="@drawable/navigation_icon_library_selector"/>
 </menu>
+

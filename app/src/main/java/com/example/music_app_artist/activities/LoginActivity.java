@@ -184,7 +184,7 @@ public class LoginActivity extends AppCompatActivity {
                     user.setAccessToken(res.getAccessToken());
                     user.setRefreshToken(res.getRefreshToken());
                     SharePrefManagerUser.getInstance(getApplicationContext()).loginSuccess(user);
-                    Intent intent = new Intent(LoginActivity.this, PublishActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
                     startActivity(intent);
                     finish();
                 }

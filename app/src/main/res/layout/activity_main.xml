@@ -4,15 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:id="@+id/main_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/main_navigation"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_gravity="bottom"
+        android:background="@drawable/navigation"
+        android:paddingTop="@dimen/spacing_40dp"
+        app:itemActiveIndicatorStyle="@color/navigation_ripple_color_selector"
+        app:itemIconSize="@dimen/icon_32dp"
+        app:itemIconTint="@color/navigation_icon_tint_selector"
+        app:itemTextAppearanceActive="@style/TextAppearance.App.LabelLarge"
+        app:itemTextAppearanceInactive="@style/TextAppearance.App.LabelLarge"
+        app:itemTextColor="@color/navigation_label_tint_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:menu="@menu/menu_navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

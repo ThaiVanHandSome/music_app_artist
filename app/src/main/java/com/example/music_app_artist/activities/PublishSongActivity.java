@@ -139,11 +139,11 @@ public class PublishSongActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish_song);
+
         mapping();
 
         user = SharePrefManagerUser.getInstance(this.getApplicationContext()).getUser();
 
-        user = SharePrefManagerUser.getInstance(this).getUser();
         songImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -268,7 +268,8 @@ public class PublishSongActivity extends AppCompatActivity {
         MultipartBody.Part imagePart = MultipartUtil.createMultipartFromUri(this, mUri, "imageFile", "image_file.png");
         MultipartBody.Part resourcePart = MultipartUtil.createMultipartFromUri(this, audioUri, "resourceFile", "audio_file.mp3");
 
-        apiService.uploadSong(imagePart, songNameTxt.getText().toString(), (long) categoryAdapter.getCheckedIdCategory(), (long) adapter.getCheckedIdAlbum(), resourcePart).enqueue(new Callback<UploadResponse>() {
+        user = SharePrefManagerUser.getInstance(getApplicationContext()).getUser();
+        apiService.uploadSong(imagePart, (long) user.getId(), songNameTxt.getText().toString(), (long) categoryAdapter.getCheckedIdCategory(), (long) adapter.getCheckedIdAlbum(), resourcePart).enqueue(new Callback<UploadResponse>() {
             @Override
             public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
                 hideOverlay();

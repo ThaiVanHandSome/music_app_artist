@@ -58,10 +58,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 String inp = emailTxt.getText().toString();
                 if(inp.length() == 0) {
-                    emailLayout.setError("Vui lòng nhập trường này");
+                    emailLayout.setError(getText(R.string.error_required_field));
                 } else {
                     if(!validate.validateEmail(inp)) {
-                        emailLayout.setError("Vui lòng nhập email chính xác!");
+                        emailLayout.setError(getText(R.string.error_invalid_email));
                     } else {
                         emailLayout.setError(null);
                     }
@@ -74,13 +74,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 String inp = emailTxt.getText().toString();
                 if(b) {
                     if(inp.length() != 0 && !validate.validateEmail(inp)) {
-                        emailLayout.setError("Vui lòng nhập email chính xác!");
+                        emailLayout.setError(getText(R.string.error_invalid_email));
                         return;
                     }
                     emailLayout.setError(null);
                 } else {
                     if(inp.length() == 0) {
-                        emailLayout.setError("Vui lòng nhập trường này");
+                        emailLayout.setError(getText(R.string.error_required_field));
                     }
                 }
             }
@@ -90,15 +90,26 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(emailLayout.getError() == null) {
-                    overlay.setBackgroundColor(Color.argb(89, 0, 0, 0));
-                    overlay.setVisibility(View.VISIBLE);
-                    overlay.setFocusable(true);
-                    overlay.setClickable(true);
-                    progressBar.setVisibility(View.VISIBLE);
+                    openOverlay();
                     sendOtp();
                 }
             }
         });
+    }
+
+    private void hideOverlay() {
+        overlay.setVisibility(View.INVISIBLE);
+        overlay.setFocusable(false);
+        overlay.setClickable(false);
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    private void openOverlay() {
+        overlay.setBackgroundColor(Color.argb(89, 0, 0, 0));
+        overlay.setVisibility(View.VISIBLE);
+        overlay.setFocusable(true);
+        overlay.setClickable(true);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     private void sendOtp() {
@@ -108,10 +119,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         apiService.sendOtp(forgotPassword).enqueue(new Callback<ResponseMessage>() {
             @Override
             public void onResponse(Call<ResponseMessage> call, Response<ResponseMessage> response) {
-                progressBar.setVisibility(View.INVISIBLE);
-                overlay.setVisibility(View.INVISIBLE);
-                overlay.setFocusable(false);
-                overlay.setClickable(false);
+                hideOverlay();
                 ResponseMessage res = response.body();
                 if(res == null) {
                     Toast.makeText(ForgotPasswordActivity.this, "Encounter Wrong!", Toast.LENGTH_SHORT).show();
@@ -129,10 +137,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseMessage> call, Throwable t) {
-                progressBar.setVisibility(View.INVISIBLE);
-                overlay.setVisibility(View.INVISIBLE);
-                overlay.setFocusable(false);
-                overlay.setClickable(false);
+                hideOverlay();
                 Toast.makeText(ForgotPasswordActivity.this, "Call API Error!", Toast.LENGTH_SHORT).show();
             }
         });
