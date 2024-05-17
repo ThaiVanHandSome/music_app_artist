@@ -37,9 +37,6 @@
             android:name=".activities.ArtistProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.PublishSongActivity"
-            android:exported="false" />
-        <activity
             android:name=".activities.ForgotPasswordActivity"
             android:exported="false" />
         <activity
@@ -66,6 +63,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".services.FirebaseNotification"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

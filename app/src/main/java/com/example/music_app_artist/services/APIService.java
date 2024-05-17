@@ -47,7 +47,7 @@ public interface APIService {
 
     @Multipart
     @POST("song/upload")
-    Call<ResponseMessage> uploadSong(@Part MultipartBody.Part imageFile,
+    Call<UploadResponse> uploadSong(@Part MultipartBody.Part imageFile,
                                      @Part("name") String name,
                                      @Part("idSongCategory") Long idSongCategory,
                                      @Part("idAlbum") Long idAlbum,
