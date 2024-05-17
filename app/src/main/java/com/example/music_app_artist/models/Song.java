@@ -108,4 +108,17 @@ public class Song {
         this.artistName = artistName;
     }
 
+    @Override
+    public String toString() {
+        return "Song{" +
+                "idSong=" + idSong +
+                ", name='" + name + '\'' +
+                ", views=" + views +
+                ", dayCreated=" + dayCreated +
+                ", resource='" + resource + '\'' +
+                ", image='" + image + '\'' +
+                ", artistId=" + artistId +
+                ", artistName='" + artistName + '\'' +
+                '}';
+    }
 }

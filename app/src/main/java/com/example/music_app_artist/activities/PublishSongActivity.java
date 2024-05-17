@@ -4,6 +4,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,17 +38,33 @@ import com.example.music_app_artist.models.Album;
 import com.example.music_app_artist.models.AlbumsResponse;
 import com.example.music_app_artist.models.CategoriesResponse;
 import com.example.music_app_artist.models.Category;
+import com.example.music_app_artist.adapters.SongAdapter;
+import com.example.music_app_artist.internals.SharePrefManagerUser;
+import com.example.music_app_artist.models.DefaultResponse;
+import com.example.music_app_artist.models.FollowerResponse;
+import com.example.music_app_artist.models.NotificationFirebase;
 import com.example.music_app_artist.models.ResponseMessage;
+import com.example.music_app_artist.models.Song;
+import com.example.music_app_artist.models.SongResponse;
+import com.example.music_app_artist.models.UploadResponse;
+import com.example.music_app_artist.models.User;
 import com.example.music_app_artist.models.User;
 import com.example.music_app_artist.retrofit.RetrofitClient;
 import com.example.music_app_artist.services.APIService;
+import com.example.music_app_artist.services.FirebaseNotification;
 import com.example.music_app_artist.utils.MultipartUtil;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -75,6 +92,12 @@ public class PublishSongActivity extends AppCompatActivity {
     private List<Album> albums = new ArrayList<>();
     private List<Category> categories = new ArrayList<>();
     private User user;
+
+    private List<Long> ids;
+
+    private Song song;
+
+    String token;
 
     private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -116,11 +139,11 @@ public class PublishSongActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish_song);
-
         mapping();
 
         user = SharePrefManagerUser.getInstance(this.getApplicationContext()).getUser();
 
+        user = SharePrefManagerUser.getInstance(this).getUser();
         songImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -245,22 +268,24 @@ public class PublishSongActivity extends AppCompatActivity {
         MultipartBody.Part imagePart = MultipartUtil.createMultipartFromUri(this, mUri, "imageFile", "image_file.png");
         MultipartBody.Part resourcePart = MultipartUtil.createMultipartFromUri(this, audioUri, "resourceFile", "audio_file.mp3");
 
-
-        apiService.uploadSong(imagePart, songNameTxt.getText().toString(), (long) categoryAdapter.getCheckedIdCategory(), (long) adapter.getCheckedIdAlbum(), resourcePart).enqueue(new Callback<ResponseMessage>() {
+        apiService.uploadSong(imagePart, songNameTxt.getText().toString(), (long) categoryAdapter.getCheckedIdCategory(), (long) adapter.getCheckedIdAlbum(), resourcePart).enqueue(new Callback<UploadResponse>() {
             @Override
-            public void onResponse(Call<ResponseMessage> call, Response<ResponseMessage> response) {
+            public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
                 hideOverlay();
-                ResponseMessage res = response.body();
+                UploadResponse res = response.body();
+                song = res.getData();
                 Toast.makeText(PublishSongActivity.this, res.getMessage(), Toast.LENGTH_SHORT).show();
-                if(res.isSuccess()) {
+                if(res.getSuccess()) {
+                    song = res.getData();
+                    sendNotification(song);
                     Intent intent = new Intent(PublishSongActivity.this, PublishActivity.class);
                     startActivity(intent);
-                    finish();
                 }
+//
             }
 
             @Override
-            public void onFailure(Call<ResponseMessage> call, Throwable t) {
+            public void onFailure(Call<UploadResponse> call, Throwable t) {
                 hideOverlay();
                 Log.d("error", t.toString());
                 Toast.makeText(PublishSongActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
@@ -313,4 +338,76 @@ public class PublishSongActivity extends AppCompatActivity {
         listAlbum = (RecyclerView) findViewById(R.id.listAlbum);
         listCategory = (RecyclerView) findViewById(R.id.listCategory);
     }
+
+    private  void sendNotification(Song song){
+        apiService = RetrofitClient.getRetrofit().create(APIService.class);
+        apiService.getAllFollowers((long) user.getId()).enqueue(new Callback<FollowerResponse>() {
+            @Override
+            public void onResponse(Call<FollowerResponse> call, Response<FollowerResponse> response) {
+                FollowerResponse res = response.body();
+                assert res != null;
+                if(res.getSuccess()) {
+                    ids = res.getData();
+                    Log.e("NotificationFirebase", ids.toString());
+                    if (ids != null && !ids.isEmpty()) {
+                        Log.e("NotificationFirebase", ids.toString());
+                        FirebaseDatabase database = FirebaseDatabase.getInstance("https://music-app-967da-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                        Log.e("NotificationFirebase", database.toString());
+                        FirebaseNotification notification = new FirebaseNotification();
+                        notification.sendNotificationToUser(song.getArtistName() + " đã phát hành bài hát " + song.getName(),token);
+                        for (int i = 0; i < ids.size(); i++) {
+                            int id = Math.toIntExact(ids.get(i));
+                            final DatabaseReference countRef = database.getReference("index").child(String.valueOf(id));
+                            countRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    Long notiCount = (Long) snapshot.getValue();
+                                    if (notiCount == null) {
+                                        notiCount = 0L;
+                                    }
+                                    String notiCountString = String.valueOf(notiCount);
+                                    DatabaseReference notiRef = database.getReference("user");
+                                    NotificationFirebase noti = new NotificationFirebase(Math.toIntExact(song.getIdSong()), song.getName(), song.getArtistName(), song.getImage());
+                                    notiRef.child(String.valueOf(id)).child("notification").child(notiCountString).setValue(noti);
+                                    notiCount++;
+                                    countRef.setValue(notiCount);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                }
+                            });
+                        }
+
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<FollowerResponse> call, Throwable t) {
+
+            }
+
+            public String receiverToken(int id){
+                FirebaseDatabase database = FirebaseDatabase.getInstance("https://music-app-967da-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                final DatabaseReference tokenRef = database.getReference("tokenPhone").child(String.valueOf(id));
+
+                tokenRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        token = (String) snapshot.getValue();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                return token;
+            }
+        });
+    }
+
+
 }
