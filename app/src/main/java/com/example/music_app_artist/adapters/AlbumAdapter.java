@@ -1,6 +1,8 @@
 package com.example.music_app_artist.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.music_app_artist.R;
+import com.example.music_app_artist.activities.AlbumDetailActivity;
 import com.example.music_app_artist.models.Album;
 
 import java.util.List;
@@ -43,15 +46,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
                 .into(holder.albumImage);
         holder.albumName.setText(album.getName());
         holder.albumSongCount.setText(context.getString(R.string.label_songs, album.getCntSong()));
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.onItemClick(album);
-                }
-            }
-        });
     }
 
     @Override
@@ -59,7 +53,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
         return albums == null ? 0 : albums.size();
     }
 
-        public static class AlbumViewHolder extends RecyclerView.ViewHolder{
+        public class AlbumViewHolder extends RecyclerView.ViewHolder{
         ImageView albumImage;
         TextView albumName;
         TextView albumSongCount;
@@ -68,10 +62,23 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
             albumImage = itemView.findViewById(R.id.imv_user_album);
             albumName = itemView.findViewById(R.id.tv_user_album);
             albumSongCount = itemView.findViewById(R.id.tv_song_count);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Album album = albums.get(getAdapterPosition());
+                    Intent intent = new Intent(context, AlbumDetailActivity.class);
+                    intent.putExtra("idAlbum", album.getIdAlbum());
+                    intent.putExtra("albumName", album.getName());
+                    intent.putExtra("albumImage", album.getImage());
+                    intent.putExtra("cntSong", album.getCntSong());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
     public interface OnItemClickListener {
-        void onItemClick(Album albums);
+        void onItemClick(Album album);
     }
 }

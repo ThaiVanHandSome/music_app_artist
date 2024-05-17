@@ -1,18 +1,12 @@
 package com.example.music_app_artist.models;
 
-public class SongResponse {
-    private String message;
+import java.util.List;
+
+public class SongCommentResponse {
     private boolean success;
     private boolean error;
-    private Song data;
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
+    private String message;
+    private List<SongComment> data;
 
     public boolean isSuccess() {
         return success;
@@ -30,11 +24,19 @@ public class SongResponse {
         this.error = error;
     }
 
-    public Song getData() {
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public List<SongComment> getData() {
         return data;
     }
 
-    public void setData(Song data) {
+    public void setData(List<SongComment> data) {
         this.data = data;
     }
 }
