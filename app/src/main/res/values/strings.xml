@@ -57,5 +57,6 @@
 
     <string name="notification_register">Bạn đã đăng ký tài khoản thành công! Vui lòng liên hệ với CisnW để được xác nhận tài khoản của bạn!</string>
     <string name="default_song_name">Tên bài hát</string>
+    <string name="default_album_name">Tên album</string>
     <string name="default_song_file">Tên tập tin</string>
 </resources>

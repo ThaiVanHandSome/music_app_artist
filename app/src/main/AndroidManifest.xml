@@ -22,6 +22,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activities.PublishAlbumActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.SignUpActivity"
             android:exported="false" />
         <activity
@@ -34,7 +37,7 @@
             android:name=".activities.ArtistProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.OtpVerifyActivity"
+            android:name=".activities.PublishSongActivity"
             android:exported="false" />
         <activity
             android:name=".activities.ForgotPasswordActivity"

@@ -2,6 +2,7 @@ package com.example.music_app_artist.services;
 
 import com.example.music_app_artist.models.AlbumsResponse;
 import com.example.music_app_artist.models.FollowerResponse;
+import com.example.music_app_artist.models.CategoriesResponse;
 import com.example.music_app_artist.models.ForgotPassword;
 import com.example.music_app_artist.models.LoginRequest;
 import com.example.music_app_artist.models.LoginResponse;
@@ -13,6 +14,8 @@ import com.example.music_app_artist.models.DefaultResponse;
 import com.example.music_app_artist.models.ResponseMessage;
 import com.example.music_app_artist.models.SongResponse;
 import com.example.music_app_artist.models.UploadResponse;
+
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -44,6 +47,11 @@ public interface APIService {
 
     @Multipart
     @POST("song/upload")
+    Call<ResponseMessage> uploadSong(@Part MultipartBody.Part imageFile,
+                                     @Part("name") String name,
+                                     @Part("idSongCategory") Long idSongCategory,
+                                     @Part("idAlbum") Long idAlbum,
+                                     @Part MultipartBody.Part resourceFile);
     Call<UploadResponse> uploadSong(@Part MultipartBody.Part imageFile,
                                     @Part("name") String name,
                                     @Part MultipartBody.Part resourceFile);
@@ -59,6 +67,19 @@ public interface APIService {
 
     @GET("artist/{id}/albums")
     Call<AlbumsResponse> getAlbumsByIdArtist(@Path("id") Long id);
+
+    @GET("categories")
+    Call<CategoriesResponse> getAllCategories();
+
+    @Multipart
+    @POST("album/upload")
+    Call<ResponseMessage> uploadAlbum(@Part MultipartBody.Part image, @Part("idArtist") Long idArtist, @Part("albumName") String albumName, @Part("listSong") String listSong);
+
+    @GET("artist/{idArtist}/songs/count")
+    Call<DefaultResponse> getCountSongsOfArtist(@Path("idArtist") Long idArtist);
+
+    @GET("albums/artist/{idArtist}/count")
+    Call<DefaultResponse> getCountAlbumsOfArtist(@Path("idArtist") Long idArtist);
 
     @GET("artist/{idArtist}/followers")
     Call<FollowerResponse> getAllFollowers(@Path("idArtist") Long idArtist);

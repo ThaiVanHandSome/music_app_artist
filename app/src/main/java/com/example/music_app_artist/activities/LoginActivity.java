@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
@@ -197,6 +198,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 hideOverlay();
+                Log.d("error", t.toString());
                 Toast.makeText(LoginActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
