@@ -133,7 +133,10 @@ public class PublishAlbumActivity extends AppCompatActivity {
         apiService = RetrofitClient.getRetrofit().create(APIService.class);
         user = SharePrefManagerUser.getInstance(getApplicationContext()).getUser();
 
-        MultipartBody.Part imagePart = MultipartUtil.createMultipartFromUri(this, mUri, "image", "image_file.png");
+        MultipartBody.Part imagePart = null;
+        if(mUri != null) {
+            imagePart = MultipartUtil.createMultipartFromUri(this, mUri, "image", "image_file.png");
+        }
         List<Long> selectedSongs = adapter.getSelectedSongs();
         String s = "";
         for (int i = 0; i < selectedSongs.size(); i++) {

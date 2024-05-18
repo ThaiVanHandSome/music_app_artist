@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.example.music_app_artist.R;
 import com.example.music_app_artist.adapters.SongAdapter;
 import com.example.music_app_artist.decorations.BottomOffsetDecoration;
+import com.example.music_app_artist.models.Album;
+import com.example.music_app_artist.models.AlbumResponse;
 import com.example.music_app_artist.models.ResponseMessage;
 import com.example.music_app_artist.models.Song;
 import com.example.music_app_artist.models.SongsResponse;
@@ -34,11 +36,12 @@ public class AlbumDetailActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private TextView cntSongTxt, albumNameTxt;
-    private MaterialButton btnDeleteAlbum;
+    private MaterialButton btnDeleteAlbum, btnUpdateAlbum;
     private RecyclerView recyclerViewSong;
     private APIService apiService;
     private SongAdapter adapter;
     private List<Song> songs;
+    private Album album = new Album();
 
 
     @Override
@@ -60,6 +63,17 @@ public class AlbumDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 handleDeleteAlbum();
+            }
+        });
+
+        btnUpdateAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AlbumDetailActivity.this, UpdateAlbumActivity.class);
+                intent.putExtra("idAlbum", album.getIdAlbum());
+                intent.putExtra("albumUrl", album.getImage());
+                intent.putExtra("albumName", album.getName());
+                startActivity(intent);
             }
         });
     }
@@ -115,12 +129,29 @@ public class AlbumDetailActivity extends AppCompatActivity {
     private void loadInitData() {
         Intent intent = getIntent();
         Long idAlbum = intent.getLongExtra("idAlbum", -1);
-        String albumName = intent.getStringExtra("albumName");
-        String albumImage = intent.getStringExtra("albumImage");
-        int cntSong = intent.getIntExtra("cntSong", -1);
-        albumNameTxt.setText(albumName);
-        Glide.with(getApplicationContext()).load(albumImage).into(imageView);
-        cntSongTxt.setText("Số lượng bài hát: " + cntSong + " bài");
+        getAlbum(idAlbum);
+    }
+
+    private void getAlbum(Long idAlbum) {
+        apiService = RetrofitClient.getRetrofit().create(APIService.class);
+        apiService.getAlbumById(idAlbum).enqueue(new Callback<AlbumResponse>() {
+            @Override
+            public void onResponse(Call<AlbumResponse> call, Response<AlbumResponse> response) {
+                AlbumResponse res = response.body();
+                assert res != null;
+                if(res.isSuccess()) {
+                    album = res.getData();
+                    albumNameTxt.setText(album.getName());
+                    Glide.with(getApplicationContext()).load(album.getImage()).into(imageView);
+                    cntSongTxt.setText("Số lượng bài hát: " + album.getCntSong() + " bài");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AlbumResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     private void mapping() {
@@ -129,5 +160,6 @@ public class AlbumDetailActivity extends AppCompatActivity {
         albumNameTxt = (TextView) findViewById(R.id.albumNameTxt);
         btnDeleteAlbum = (MaterialButton) findViewById(R.id.btnDeleteAlbum);
         recyclerViewSong = (RecyclerView) findViewById(R.id.recyclerViewSong);
+        btnUpdateAlbum = (MaterialButton) findViewById(R.id.btnUpdateAlbum);
     }
 }

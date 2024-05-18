@@ -42,7 +42,7 @@ public class SongDetailActivity extends AppCompatActivity {
 
     private TextView tvArtistName, tvSongTitle, cntLikeTxt, cntViewTxt, cntCommentTxt;
     private CircleImageView imSongAvt;
-    private MaterialButton btnDeleteSong;
+    private MaterialButton btnDeleteSong, btnUpdateSong;
     private RecyclerView recyclerViewCmt;
     private FrameLayout overlay;
     private ProgressBar progressBar;
@@ -74,6 +74,17 @@ public class SongDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 openOverlay();
                 deleteSong();
+            }
+        });
+
+        btnUpdateSong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SongDetailActivity.this, UpdateSongActivity.class);
+                intent.putExtra("idSong", song.getIdSong());
+                intent.putExtra("songUrl", song.getImage());
+                intent.putExtra("songName", song.getName());
+                startActivity(intent);
             }
         });
     }
@@ -179,6 +190,7 @@ public class SongDetailActivity extends AppCompatActivity {
         tvSongTitle = (TextView) findViewById(R.id.tvSongTitle);
         imSongAvt = (CircleImageView) findViewById(R.id.imSongAvt);
         btnDeleteSong = (MaterialButton) findViewById(R.id.btnDeleteSong);
+        btnUpdateSong = (MaterialButton) findViewById(R.id.btnUpdateSong);
         cntLikeTxt = (TextView) findViewById(R.id.cntLikeTxt);
         cntViewTxt = (TextView) findViewById(R.id.cntViewTxt);
         cntCommentTxt = (TextView) findViewById(R.id.cntCommentTxt);

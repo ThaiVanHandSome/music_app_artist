@@ -7,169 +7,180 @@
     tools:context=".activities.SongDetailActivity"
     android:background="@drawable/background_gradient">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvArtistName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="22dp"
+            android:fontFamily="@font/lexend_medium"
+            android:gravity="center_horizontal"
+            android:textColor="@color/neutral4"
+            android:textSize="@dimen/font_label"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="0dp" />
 
-            <TextView
-                android:id="@+id/tvArtistName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="22dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="22dp"
-                android:fontFamily="@font/lexend_medium"
-                android:gravity="center_horizontal"
-                android:textColor="@color/neutral4"
-                android:textSize="@dimen/font_label"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="0dp" />
+        <TextView
+            android:id="@+id/tvSongTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="22dp"
+            android:fontFamily="@font/lexend_semibold"
+            android:gravity="center_horizontal"
+            android:textColor="@color/neutral5"
+            android:textSize="@dimen/font_heading2"
+            app:layout_constraintTop_toBottomOf="@+id/tvArtistName" />
 
-            <TextView
-                android:id="@+id/tvSongTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="22dp"
-                android:layout_marginEnd="22dp"
-                android:fontFamily="@font/lexend_semibold"
-                android:gravity="center_horizontal"
-                android:textColor="@color/neutral5"
-                android:textSize="@dimen/font_heading2"
-                app:layout_constraintTop_toBottomOf="@+id/tvArtistName" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imSongAvt"
-                android:layout_width="@dimen/image_300dp"
-                android:layout_height="@dimen/image_300dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="@dimen/spacing_16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvSongTitle" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imSongAvt"
+            android:layout_width="@dimen/image_300dp"
+            android:layout_height="@dimen/image_300dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="@dimen/spacing_16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSongTitle" />
+        <LinearLayout
+            android:id="@+id/lnBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imSongAvt"
+            >
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDeleteSong"
-                android:layout_width="240dp"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/spacing_16dp"
-                android:paddingRight="@dimen/spacing_16dp"
-                android:text="Xóa bài hát"
-                android:backgroundTint="#ffff0000"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imSongAvt"
-                />
-            <LinearLayout
-                android:id="@+id/ln_infor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3"
-                android:gravity="center"
-                android:layout_marginTop="@dimen/spacing_16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnDeleteSong"
-                >
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    >
-                    <TextView
-                        android:id="@+id/cntLikeTxt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="100"
-                        android:textSize="@dimen/font_heading1"
-                        android:textColor="@color/primary"
-                        />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="lượt thích"
-                        android:textColor="@color/neutral5"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    >
-                    <TextView
-                        android:id="@+id/cntViewTxt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="1000"
-                        android:textSize="@dimen/font_heading1"
-                        android:textColor="#ffff0000"
-                        />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="lượt nghe"
-                        android:textColor="@color/neutral5"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    >
-                    <TextView
-                        android:id="@+id/cntCommentTxt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="100"
-                        android:textColor="@color/primary"
-                        android:textSize="@dimen/font_heading1"
-                        />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="bình luận"
-                        android:textColor="@color/neutral5"
-                        />
-                </LinearLayout>
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/cmtTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bình luận"
-                android:textSize="@dimen/font_heading1"
-                android:textColor="@color/neutral5"
-                android:layout_marginTop="@dimen/spacing_16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ln_infor"
+                android:layout_marginEnd="@dimen/spacing_16dp"
+                android:text="Xóa bài hát"
+                android:backgroundTint="#ffff0000"
                 />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewCmt"
-                android:layout_width="match_parent"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnUpdateSong"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_8dp"
                 android:paddingLeft="@dimen/spacing_16dp"
                 android:paddingRight="@dimen/spacing_16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cmtTxt"
-
+                android:text="Sửa bài hát"
                 />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ln_infor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/spacing_16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lnBtn"
+            >
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/cntLikeTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="100"
+                    android:textSize="@dimen/font_heading1"
+                    android:textColor="@color/primary"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="lượt thích"
+                    android:textColor="@color/neutral5"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/cntViewTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="1000"
+                    android:textSize="@dimen/font_heading1"
+                    android:textColor="#ffff0000"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="lượt nghe"
+                    android:textColor="@color/neutral5"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/cntCommentTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="100"
+                    android:textColor="@color/primary"
+                    android:textSize="@dimen/font_heading1"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="bình luận"
+                    android:textColor="@color/neutral5"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/cmtTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bình luận"
+            android:textSize="@dimen/font_heading1"
+            android:textColor="@color/neutral5"
+            android:layout_marginTop="@dimen/spacing_16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ln_infor"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewCmt"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginTop="@dimen/spacing_8dp"
+            android:paddingLeft="@dimen/spacing_16dp"
+            android:paddingRight="@dimen/spacing_16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cmtTxt"
+
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <FrameLayout
         android:id="@+id/overlay"
         android:layout_width="match_parent"

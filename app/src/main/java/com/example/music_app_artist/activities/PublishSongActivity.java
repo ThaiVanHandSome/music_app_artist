@@ -58,6 +58,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import okhttp3.MultipartBody;
@@ -257,9 +258,15 @@ public class PublishSongActivity extends AppCompatActivity {
     private void uploadSong() throws IOException, URISyntaxException {
         apiService = RetrofitClient.getRetrofit().create(APIService.class);
 
-        MultipartBody.Part imagePart = MultipartUtil.createMultipartFromUri(this, mUri, "imageFile", "image_file.png");
-        MultipartBody.Part resourcePart = MultipartUtil.createMultipartFromUri(this, audioUri, "resourceFile", "audio_file.mp3");
-
+        MultipartBody.Part imagePart = null;
+        MultipartBody.Part resourcePart = null;
+        if(mUri != null) {
+            imagePart = MultipartUtil.createMultipartFromUri(this, mUri, "imageFile", "image_file.png");
+        }
+        if(audioUri != null) {
+            resourcePart = MultipartUtil.createMultipartFromUri(this, audioUri, "resourceFile", "audio_file.mp3");
+        }
+        if(resourcePart == null) return;
         user = SharePrefManagerUser.getInstance(getApplicationContext()).getUser();
         apiService.uploadSong(imagePart, (long) user.getId(), songNameTxt.getText().toString(), (long) categoryAdapter.getCheckedIdCategory(), (long) adapter.getCheckedIdAlbum(), resourcePart).enqueue(new Callback<UploadResponse>() {
             @Override

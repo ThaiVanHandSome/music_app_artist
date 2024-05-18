@@ -62,6 +62,13 @@ public class PublishActivity extends AppCompatActivity {
             }
         });
 
+        publishViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                publishTabLayout.selectTab(publishTabLayout.getTabAt(position));
+            }
+        });
+
         btnPublishSong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

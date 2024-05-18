@@ -1,5 +1,6 @@
 package com.example.music_app_artist.services;
 
+import com.example.music_app_artist.models.AlbumResponse;
 import com.example.music_app_artist.models.AlbumsResponse;
 import com.example.music_app_artist.models.FollowerResponse;
 import com.example.music_app_artist.models.CategoriesResponse;
@@ -109,4 +110,16 @@ public interface APIService {
 
     @DELETE("album/{id}")
     Call<ResponseMessage> deleteAlbum(@Path("id") Long idAlbum);
+
+    @Multipart
+    @PATCH("song/update")
+    Call<ResponseMessage> updateSong(@Part("idSong") Long idSong, @Part MultipartBody.Part imageFile, @Part("songName") String songName);
+
+    @GET("album/{id}")
+    Call<AlbumResponse> getAlbumById(@Path("id") Long id);
+
+    @Multipart
+    @PATCH("album/update")
+    Call<ResponseMessage> updateAlbum(@Part("idAlbum") Long idAlbum, @Part MultipartBody.Part imageFile, @Part("albumName") String albumName);
+
 }

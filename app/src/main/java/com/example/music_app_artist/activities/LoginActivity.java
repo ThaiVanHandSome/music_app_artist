@@ -25,6 +25,7 @@ import com.example.music_app_artist.models.ResponseMessage;
 import com.example.music_app_artist.models.User;
 import com.example.music_app_artist.retrofit.RetrofitClient;
 import com.example.music_app_artist.services.APIService;
+import com.example.music_app_artist.utils.Const;
 import com.example.music_app_artist.utils.Validate;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -182,6 +183,7 @@ public class LoginActivity extends AppCompatActivity {
                     user.setGender(res.getGender());
                     user.setId(res.getId());
                     user.setAccessToken(res.getAccessToken());
+                    Const.setAccessToken(res.getAccessToken());
                     user.setRefreshToken(res.getRefreshToken());
                     SharePrefManagerUser.getInstance(getApplicationContext()).loginSuccess(user);
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);

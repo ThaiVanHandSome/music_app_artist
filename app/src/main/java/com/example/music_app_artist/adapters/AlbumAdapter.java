@@ -69,9 +69,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
                     Album album = albums.get(getAdapterPosition());
                     Intent intent = new Intent(context, AlbumDetailActivity.class);
                     intent.putExtra("idAlbum", album.getIdAlbum());
-                    intent.putExtra("albumName", album.getName());
-                    intent.putExtra("albumImage", album.getImage());
-                    intent.putExtra("cntSong", album.getCntSong());
                     context.startActivity(intent);
                 }
             });

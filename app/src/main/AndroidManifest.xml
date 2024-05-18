@@ -15,7 +15,6 @@
         android:maxSdkVersion="32" />
 
     <application
-
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -28,6 +27,12 @@
         android:theme="@style/Theme.Music_app_artist"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".activities.UpdateAlbumActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.UpdateSongActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.AlbumDetailActivity"
             android:exported="false" />

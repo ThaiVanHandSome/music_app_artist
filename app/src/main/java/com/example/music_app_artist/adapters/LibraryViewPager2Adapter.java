@@ -19,10 +19,10 @@ public class LibraryViewPager2Adapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        if (position == SONG_TAB_POSITION) {
-            return new SongFragment();
-        } else {
+        if (position == ALBUM_TAB_POSITION) {
             return new AlbumFragment();
+        } else {
+            return new SongFragment();
         }
     }
 
