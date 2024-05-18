@@ -175,7 +175,7 @@ public class PublishAlbumActivity extends AppCompatActivity {
     private void getAllSongs() {
         apiService = RetrofitClient.getRetrofit().create(APIService.class);
         user = SharePrefManagerUser.getInstance(getApplicationContext()).getUser();
-        apiService.getAllSongsOfArtist((long) user.getId()).enqueue(new Callback<SongsResponse>() {
+        apiService.getAllSongsOfArtistDesc((long) user.getId()).enqueue(new Callback<SongsResponse>() {
             @Override
             public void onResponse(Call<SongsResponse> call, Response<SongsResponse> response) {
                 SongsResponse res = response.body();

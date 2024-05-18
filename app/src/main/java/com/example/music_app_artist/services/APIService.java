@@ -62,8 +62,6 @@ public interface APIService {
     @GET("artist/{idArtist}/songs/desc")
     Call<SongsResponse> getAllSongsOfArtistDesc(@Path("idArtist") Long idArtist);
 
-    @GET("artist/{artistId}/songs")
-    Call<SongsResponse> getAllSongsOfArtist(@Path("artistId") Long idArtist);
 
     @GET("artist/{id}/albums")
     Call<AlbumsResponse> getAlbumsByIdArtist(@Path("id") Long id);

@@ -63,7 +63,7 @@ public class SongFragment extends Fragment {
 
     private void getAlbumsByIdUser() {
         APIService apiService = RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.getAllSongsOfArtist((long) user.getId()).enqueue(new Callback<SongsResponse>() {
+        apiService.getAllSongsOfArtistDesc((long) user.getId()).enqueue(new Callback<SongsResponse>() {
             @Override
             public void onResponse(Call<SongsResponse> call, Response<SongsResponse> response) {
                 SongsResponse res = response.body();
