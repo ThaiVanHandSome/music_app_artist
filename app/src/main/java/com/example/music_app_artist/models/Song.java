@@ -22,11 +22,15 @@ public class Song {
     private Long artistId;
     @SerializedName("artistName")
     private String artistName;
+    @SerializedName("cntComments")
+    private int cntComments;
+    @SerializedName("cntLikes")
+    private int cntLikes;
 
     public Song() {
     }
 
-    public Song(Long idSong, String name, int views, List<Integer> dayCreated, String resource, String image, Long artistId, String artistName) {
+    public Song(Long idSong, String name, int views, List<Integer> dayCreated, String resource, String image, Long artistId, String artistName, int cntComments, int cntLikes) {
         this.idSong = idSong;
         this.name = name;
         this.views = views;
@@ -35,6 +39,8 @@ public class Song {
         this.image = image;
         this.artistId = artistId;
         this.artistName = artistName;
+        this.cntComments = cntComments;
+        this.cntLikes = cntLikes;
     }
 
     public Long getIdSong() {
@@ -120,5 +126,21 @@ public class Song {
                 ", artistId=" + artistId +
                 ", artistName='" + artistName + '\'' +
                 '}';
+    }
+
+    public int getCntComments() {
+        return cntComments;
+    }
+
+    public void setCntComments(int cntComments) {
+        this.cntComments = cntComments;
+    }
+
+    public int getCntLikes() {
+        return cntLikes;
+    }
+
+    public void setCntLikes(int cntLikes) {
+        this.cntLikes = cntLikes;
     }
 }

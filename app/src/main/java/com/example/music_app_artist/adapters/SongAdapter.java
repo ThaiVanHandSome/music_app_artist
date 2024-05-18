@@ -1,6 +1,8 @@
 package com.example.music_app_artist.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.music_app_artist.R;
+import com.example.music_app_artist.activities.SongDetailActivity;
 import com.example.music_app_artist.models.Song;
 import com.google.android.material.button.MaterialButton;
 
@@ -21,9 +24,12 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     private final Context context;
     private final List<Song> songs;
 
-    public SongAdapter(Context context, List<Song> songs) {
+    private final SongAdapter.OnItemClickListener listener;
+
+    public SongAdapter(Context context, List<Song> songs, SongAdapter.OnItemClickListener listener) {
         this.context = context;
         this.songs = songs;
+        this.listener = listener;
     }
 
     @NonNull
@@ -33,6 +39,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
         return new SongViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
         Song song = songs.get(position);
@@ -40,13 +47,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
                 .load(song.getImage())
                 .into(holder.songImage);
         holder.songTitle.setText(song.getName());
-        holder.artistName.setText(song.getArtistName());
-        holder.songActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO: open bottom sheet dialog
-            }
-        });
+        holder.songViews.setText(String.valueOf(song.getViews()) + " lượt nghe");
     }
 
     @Override
@@ -54,17 +55,30 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
         return songs == null ? 0 : songs.size();
     }
 
-    public static class SongViewHolder extends RecyclerView.ViewHolder {
+    public class SongViewHolder extends RecyclerView.ViewHolder {
         ImageView songImage;
         TextView songTitle;
-        TextView artistName;
+        TextView songViews;
         MaterialButton songActionButton;
         public SongViewHolder(View itemView) {
             super(itemView);
             songImage = itemView.findViewById(R.id.imv_song_image);
             songTitle = itemView.findViewById(R.id.tv_song_title);
-            artistName = itemView.findViewById(R.id.tv_song_artist);
-            songActionButton = itemView.findViewById(R.id.btn_song_action);
+            songViews = itemView.findViewById(R.id.tv_song_views);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Song song = songs.get(getAdapterPosition());
+                    Intent intent = new Intent(context, SongDetailActivity.class);
+                    intent.putExtra("idSong", song.getIdSong());
+                    context.startActivity(intent);
+                }
+            });
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Song song);
     }
 }

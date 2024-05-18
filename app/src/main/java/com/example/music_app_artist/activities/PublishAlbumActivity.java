@@ -28,27 +28,22 @@ import com.example.music_app_artist.decorations.BottomOffsetDecoration;
 import com.example.music_app_artist.internals.SharePrefManagerUser;
 import com.example.music_app_artist.models.ResponseMessage;
 import com.example.music_app_artist.models.Song;
-import com.example.music_app_artist.models.SongResponse;
+import com.example.music_app_artist.models.SongsResponse;
 import com.example.music_app_artist.models.User;
 import com.example.music_app_artist.retrofit.RetrofitClient;
 import com.example.music_app_artist.services.APIService;
 import com.example.music_app_artist.utils.MultipartUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.android.material.button.MaterialButton;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 
 public class PublishAlbumActivity extends AppCompatActivity {
 
@@ -180,10 +175,10 @@ public class PublishAlbumActivity extends AppCompatActivity {
     private void getAllSongs() {
         apiService = RetrofitClient.getRetrofit().create(APIService.class);
         user = SharePrefManagerUser.getInstance(getApplicationContext()).getUser();
-        apiService.getAllSongsOfArtist((long) user.getId()).enqueue(new Callback<SongResponse>() {
+        apiService.getAllSongsOfArtistDesc((long) user.getId()).enqueue(new Callback<SongsResponse>() {
             @Override
-            public void onResponse(Call<SongResponse> call, Response<SongResponse> response) {
-                SongResponse res = response.body();
+            public void onResponse(Call<SongsResponse> call, Response<SongsResponse> response) {
+                SongsResponse res = response.body();
                 assert res != null;
                 if(res.getSuccess()) {
                     songs = res.getData();
@@ -199,7 +194,7 @@ public class PublishAlbumActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<SongResponse> call, Throwable t) {
+            public void onFailure(Call<SongsResponse> call, Throwable t) {
             }
         });
     }

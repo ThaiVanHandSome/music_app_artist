@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/spacing_16dp"
+    tools:context=".activities.AlbumDetailActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/albumNameTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Album Name"
+                android:textSize="@dimen/font_heading1"
+                android:textColor="@color/neutral5"
+                android:layout_marginBottom="@dimen/spacing_32dp"
+                android:gravity="center"
+                />
+            <ImageView
+                android:id="@+id/albumImage"
+                android:layout_width="@dimen/image_240dp"
+                android:layout_height="@dimen/image_240dp"
+                android:src="@drawable/cover_picture"
+                android:layout_marginBottom="@dimen/spacing_16dp"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDeleteAlbum"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:text="Xóa album"
+                android:backgroundTint="#ffff0000"
+                android:layout_marginBottom="@dimen/spacing_8dp"
+                />
+
+            <TextView
+                android:id="@+id/cntSongTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="So Luong Bai Hat"
+                android:textSize="@dimen/font_body"
+                android:textColor="@color/neutral5"
+                android:gravity="center"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewSong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

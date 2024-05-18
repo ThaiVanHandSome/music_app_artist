@@ -4,9 +4,11 @@
     <string name="hello_blank_fragment">""</string>
 
     <!-- Menu items for bottom navigation bar -->
-    <string name="menu_item_home">Trang chủ</string>
+    <string name="menu_item_home">Phát hành</string>
     <string name="menu_item_search">Tìm kiếm</string>
     <string name="menu_item_library">Thư viện</string>
+    <string name="menu_item_profile">Hồ sơ</string>
+    <string name="menu_item_publish">Phát hành</string>
 
     <!-- Menu item for tab layout in Library -->
     <string name="menu_item_my_playlist">Danh sách phát của tôi</string>

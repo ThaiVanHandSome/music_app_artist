@@ -5,12 +5,12 @@
         android:title="@string/menu_item_home"
         android:icon="@drawable/navigation_icon_home_selector"/>
     <item
-        android:id="@+id/menu_item_search"
-        android:title="@string/menu_item_search"
+        android:id="@+id/menu_item_profile"
+        android:title="@string/menu_item_profile"
         android:icon="@drawable/navigation_icon_search_selector"/>
     <item
-        android:id="@+id/menu_item_library"
-        android:title="@string/menu_item_library"
+        android:id="@+id/menu_item_publish"
+        android:title="@string/menu_item_publish"
         android:icon="@drawable/navigation_icon_library_selector"/>
 </menu>
 
