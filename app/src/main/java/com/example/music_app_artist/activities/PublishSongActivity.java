@@ -66,6 +66,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -97,7 +98,6 @@ public class PublishSongActivity extends AppCompatActivity {
 
     private Song song;
 
-    String token;
 
     private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -274,15 +274,13 @@ public class PublishSongActivity extends AppCompatActivity {
             public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
                 hideOverlay();
                 UploadResponse res = response.body();
-                song = res.getData();
                 Toast.makeText(PublishSongActivity.this, res.getMessage(), Toast.LENGTH_SHORT).show();
                 if(res.getSuccess()) {
-                    song = res.getData();
+                    Song song = res.getData();
                     sendNotification(song);
                     Intent intent = new Intent(PublishSongActivity.this, PublishActivity.class);
                     startActivity(intent);
                 }
-//
             }
 
             @Override
@@ -355,9 +353,24 @@ public class PublishSongActivity extends AppCompatActivity {
                         FirebaseDatabase database = FirebaseDatabase.getInstance("https://music-app-967da-default-rtdb.asia-southeast1.firebasedatabase.app/");
                         Log.e("NotificationFirebase", database.toString());
                         FirebaseNotification notification = new FirebaseNotification();
-                        notification.sendNotificationToUser(song.getArtistName() + " đã phát hành bài hát " + song.getName(),token);
                         for (int i = 0; i < ids.size(); i++) {
                             int id = Math.toIntExact(ids.get(i));
+                            Log.e("NotificationFirebase", String.valueOf(id));
+                            DatabaseReference tokenRef = database.getReference("tokenPhone").child(String.valueOf(id));
+
+                            tokenRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    String token = (String) snapshot.getValue();
+                                    Log.e("NotificationFirebase", token);
+                                    notification.sendNotificationToUser( song, token);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                             final DatabaseReference countRef = database.getReference("index").child(String.valueOf(id));
                             countRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
@@ -389,26 +402,7 @@ public class PublishSongActivity extends AppCompatActivity {
             public void onFailure(Call<FollowerResponse> call, Throwable t) {
 
             }
-
-            public String receiverToken(int id){
-                FirebaseDatabase database = FirebaseDatabase.getInstance("https://music-app-967da-default-rtdb.asia-southeast1.firebasedatabase.app/");
-                final DatabaseReference tokenRef = database.getReference("tokenPhone").child(String.valueOf(id));
-
-                tokenRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        token = (String) snapshot.getValue();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-                return token;
-            }
         });
+
     }
-
-
 }
