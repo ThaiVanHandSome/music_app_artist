@@ -27,7 +27,6 @@
             android:id="@+id/artistNameTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Name"
             android:textSize="@dimen/font_heading1"
             android:textColor="@color/neutral5"
             android:gravity="center"

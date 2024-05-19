@@ -4,7 +4,7 @@
     <string name="hello_blank_fragment">""</string>
 
     <!-- Menu items for bottom navigation bar -->
-    <string name="menu_item_home">Phát hành</string>
+    <string name="menu_item_home">Thống kê</string>
     <string name="menu_item_search">Tìm kiếm</string>
     <string name="menu_item_library">Thư viện</string>
     <string name="menu_item_profile">Hồ sơ</string>

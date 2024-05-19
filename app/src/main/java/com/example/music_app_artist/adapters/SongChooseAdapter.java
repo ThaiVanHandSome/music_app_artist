@@ -41,7 +41,7 @@ public class SongChooseAdapter extends RecyclerView.Adapter<SongChooseAdapter.So
     @NonNull
     @Override
     public SongChooseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_song_choose, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_song_choose, parent, false);
         return new SongChooseViewHolder(view);
     }
 

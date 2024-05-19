@@ -7,6 +7,7 @@
     tools:context=".activities.PublishActivity"
     android:paddingLeft="@dimen/spacing_16dp"
     android:paddingRight="@dimen/spacing_16dp"
+    android:background="@color/neutral0"
     >
 
     <com.google.android.material.appbar.AppBarLayout
@@ -18,9 +19,10 @@
             android:id="@+id/ln1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_16dp"
+            android:paddingTop="@dimen/spacing_16dp"
             android:orientation="vertical"
             android:gravity="center"
+            android:background="@color/neutral0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -29,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginBottom="@dimen/spacing_12dp"
+                android:paddingBottom="@dimen/spacing_12dp"
                 android:text="Thống kê số sản phẩm đã phát hành"
                 android:textColor="@color/neutral5"
                 />
@@ -37,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:background="@color/neutral0"
                 >
                 <LinearLayout
                     android:layout_width="100dp"
@@ -48,7 +51,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="10"
                         android:textSize="@dimen/font_display"
                         android:textColor="@color/primary"
                         />
@@ -64,13 +66,13 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:background="@color/neutral0"
                     >
                     <TextView
                         android:id="@+id/cntAlbumTxt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="50"
                         android:textSize="@dimen/font_display"
                         android:textColor="#ffff0000"
                         />
@@ -88,9 +90,11 @@
             android:id="@+id/ln2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_32dp"
+            android:paddingTop="@dimen/spacing_32dp"
+            android:paddingBottom="@dimen/spacing_24dp"
             android:orientation="horizontal"
             android:weightSum="2"
+            android:background="@color/neutral0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ln1"
@@ -142,7 +146,7 @@
             android:id="@+id/publishTabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_24dp"
+            android:background="@color/neutral0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ln2"

@@ -1,94 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.PublishAlbumActivity"
     >
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/ln1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_16dp"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/spacing_16dp"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/spacing_16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             >
-            <LinearLayout
+            <ImageView
+                android:id="@+id/albumImage"
+                android:layout_width="@dimen/image_240dp"
+                android:layout_height="@dimen/image_240dp"
+                android:src="@drawable/cover_picture" />
+
+            <EditText
+                android:id="@+id/albumNameTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:text="@string/default_album_name"
+                android:textSize="@dimen/font_display"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/spacing_12dp"
+                android:textColor="@color/neutral5"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/spacing_16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                >
-                <ImageView
-                    android:id="@+id/albumImage"
-                    android:layout_width="@dimen/image_240dp"
-                    android:layout_height="@dimen/image_240dp"
-                    android:src="@drawable/cover_picture" />
-
-                <EditText
-                    android:id="@+id/albumNameTxt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/default_album_name"
-                    android:textSize="@dimen/font_display"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/spacing_12dp"
-                    android:textColor="@color/neutral5"
-                    android:gravity="center"
-                    />
-            </LinearLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Danh sách bài hát"
-                android:textSize="@dimen/font_heading2"
-                android:textColor="@color/neutral5"
-                android:layout_marginTop="@dimen/spacing_16dp"
                 />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/listSong"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_4dp"
-                />
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnUploadAlbum"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/button_upload"
-                android:backgroundTint="@color/primary"
-                android:textColor="@color/neutral5"
-                android:layout_marginTop="@dimen/spacing_12dp"/>
         </LinearLayout>
-    </ScrollView>
-    <FrameLayout
-        android:id="@+id/overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <FrameLayout
+            android:id="@+id/overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🔥 Danh sách bài hát"
+            android:textSize="@dimen/font_heading2"
+            android:textColor="@color/neutral5"
+            android:layout_marginTop="@dimen/spacing_16dp"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listSong"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/spacing_4dp"
+            />
+    </LinearLayout>
+    <View
+        android:id="@+id/bottom_anchor"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="@dimen/spacing_8dp"
+        android:visibility="invisible"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnUploadAlbum"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/primary"
+        android:text="@string/button_upload"
+        android:textColor="@color/neutral5"
+        app:layout_anchor="@id/bottom_anchor"
+        app:layout_anchorGravity="bottom|center_horizontal" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -23,12 +24,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = getIntent();
+
         fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.main_frame_layout, HomeFragment.newInstance())
-                .commit();
+        int itemIdSelected = intent.getIntExtra("id", R.id.menu_item_home);
+        if (itemIdSelected == R.id.menu_item_home) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_frame_layout, HomeFragment.newInstance())
+                    .commit();
+        } else if (itemIdSelected == R.id.menu_item_profile) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_frame_layout, ProfileFragment.newInstance())
+                    .commit();
+        } else if (itemIdSelected == R.id.menu_item_publish) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_frame_layout, PublishFragment.newInstance())
+                    .commit();
+        }
 
         navigationView = findViewById(R.id.main_navigation);
+        navigationView.setSelectedItemId(itemIdSelected);
         navigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

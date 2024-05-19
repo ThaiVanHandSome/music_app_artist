@@ -48,7 +48,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="10"
                         android:textSize="@dimen/font_display"
                         android:textColor="@color/primary"
                         />
@@ -70,7 +69,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="50"
                         android:textSize="@dimen/font_display"
                         android:textColor="#ffff0000"
                         />

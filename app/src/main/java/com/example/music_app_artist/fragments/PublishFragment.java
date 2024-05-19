@@ -77,6 +77,13 @@ public class PublishFragment extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {}
         });
 
+        publishViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                publishTabLayout.selectTab(publishTabLayout.getTabAt(position));
+            }
+        });
+
         btnPublishSong.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), PublishSongActivity.class);
             startActivity(intent);

@@ -153,7 +153,8 @@ public class PublishAlbumActivity extends AppCompatActivity {
                 ResponseMessage res = response.body();
                 assert res != null;
                 if(res.isSuccess()) {
-                    Intent intent = new Intent(PublishAlbumActivity.this, PublishActivity.class);
+                    Intent intent = new Intent(PublishAlbumActivity.this, MainActivity.class);
+                    intent.putExtra("id", R.id.menu_item_publish);
                     startActivity(intent);
                 }
                 Toast.makeText(PublishAlbumActivity.this, res.getMessage(), Toast.LENGTH_SHORT).show();
