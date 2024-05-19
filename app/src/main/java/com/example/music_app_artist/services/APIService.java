@@ -1,5 +1,6 @@
 package com.example.music_app_artist.services;
 
+import com.example.music_app_artist.models.AlbumResponse;
 import com.example.music_app_artist.models.AlbumsResponse;
 import com.example.music_app_artist.models.FollowerResponse;
 import com.example.music_app_artist.models.CategoriesResponse;
@@ -12,14 +13,16 @@ import com.example.music_app_artist.models.RegisterResponse;
 import com.example.music_app_artist.models.ResetPasswordRequest;
 import com.example.music_app_artist.models.DefaultResponse;
 import com.example.music_app_artist.models.ResponseMessage;
+import com.example.music_app_artist.models.SongCommentResponse;
 import com.example.music_app_artist.models.SongResponse;
+import com.example.music_app_artist.models.SongsResponse;
+import com.example.music_app_artist.models.UpdateUserResponse;
 import com.example.music_app_artist.models.UploadResponse;
-
-import java.util.List;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
@@ -55,16 +58,18 @@ public interface APIService {
                                      @Part MultipartBody.Part resourceFile);
 
     @GET("songs")
-    Call<SongResponse> getAllSongs();
+    Call<SongsResponse> getAllSongs();
 
     @GET("artist/{idArtist}/songs/desc")
-    Call<SongResponse> getAllSongsOfArtistDesc(@Path("idArtist") Long idArtist);
+    Call<SongsResponse> getAllSongsOfArtistDesc(@Path("idArtist") Long idArtist);
 
-    @GET("artist/{artistId}/songs")
-    Call<SongResponse> getAllSongsOfArtist(@Path("artistId") Long idArtist);
 
     @GET("artist/{id}/albums")
     Call<AlbumsResponse> getAlbumsByIdArtist(@Path("id") Long id);
+
+    @Multipart
+    @PATCH("artist/update")
+    Call<UpdateUserResponse> updateArtist(@Part("idArtist") Long idArtist, @Part MultipartBody.Part imageFile, @Part("nickname") String nickname, @Part("gender") int gender);
 
     @GET("categories")
     Call<CategoriesResponse> getAllCategories();
@@ -81,4 +86,40 @@ public interface APIService {
 
     @GET("artist/{idArtist}/followers")
     Call<FollowerResponse> getAllFollowers(@Path("idArtist") Long idArtist);
+
+    @GET("artist/{idArtist}/views/count")
+    Call<DefaultResponse> getCountOfViews(@Path("idArtist") Long idArtist);
+
+    @GET("artist/{idArtist}/likes/count")
+    Call<DefaultResponse> getCountOfLikes(@Path("idArtist") Long idArtist);
+
+    @GET("artist/{idArtist}/comments/count")
+    Call<DefaultResponse> getCountOfComments(@Path("idArtist") Long idArtist);
+
+    @GET("song/{idSong}")
+    Call<SongResponse> getSongById(@Path("idSong") Long idSong);
+
+    @GET("song/{id_song}/comments")
+    Call<SongCommentResponse> getAllCommentsOfSong(@Path("id_song") Long idSong);
+
+    @DELETE("song/{idSong}")
+    Call<ResponseMessage> deleteSong(@Path("idSong") Long idSong);
+
+    @GET("album/{id}/songs")
+    Call<SongsResponse> getAllSongsByAlbumId(@Path("id") Long idAlbum);
+
+    @DELETE("album/{id}")
+    Call<ResponseMessage> deleteAlbum(@Path("id") Long idAlbum);
+
+    @Multipart
+    @PATCH("song/update")
+    Call<ResponseMessage> updateSong(@Part("idSong") Long idSong, @Part MultipartBody.Part imageFile, @Part("songName") String songName);
+
+    @GET("album/{id}")
+    Call<AlbumResponse> getAlbumById(@Path("id") Long id);
+
+    @Multipart
+    @PATCH("album/update")
+    Call<ResponseMessage> updateAlbum(@Part("idAlbum") Long idAlbum, @Part MultipartBody.Part imageFile, @Part("albumName") String albumName);
+
 }

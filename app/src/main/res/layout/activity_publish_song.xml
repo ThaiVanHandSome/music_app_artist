@@ -92,7 +92,7 @@
                 android:text="Thêm vào album"
                 android:textSize="@dimen/font_heading2"
                 android:textColor="@color/neutral5"
-                android:layout_marginTop="@dimen/spacing_16dp"
+                android:layout_marginTop="@dimen/spacing_4dp"
                 />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listAlbum"

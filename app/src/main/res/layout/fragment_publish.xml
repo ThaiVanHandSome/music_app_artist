@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/neutral0"
-        android:backgroundTint="@color/neutral0">
+        >
         <LinearLayout
             android:id="@+id/ln1"
             android:layout_width="match_parent"
@@ -143,7 +143,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_24dp"
-            android:background="@color/neutral0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ln2"
             app:tabTextAppearance="@style/TextAppearance.App.LabelLarge"
             >
             <com.google.android.material.tabs.TabItem

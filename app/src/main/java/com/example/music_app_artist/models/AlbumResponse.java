@@ -1,10 +1,10 @@
 package com.example.music_app_artist.models;
 
-public class SongResponse {
+public class AlbumResponse {
     private String message;
     private boolean success;
     private boolean error;
-    private Song data;
+    private Album data;
 
     public String getMessage() {
         return message;
@@ -30,11 +30,11 @@ public class SongResponse {
         this.error = error;
     }
 
-    public Song getData() {
+    public Album getData() {
         return data;
     }
 
-    public void setData(Song data) {
-        this.data = data;
+    public void setData(Album album) {
+        this.data = album;
     }
 }

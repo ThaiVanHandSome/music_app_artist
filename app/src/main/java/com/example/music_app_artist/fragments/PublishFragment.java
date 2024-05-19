@@ -1,16 +1,23 @@
-package com.example.music_app_artist.activities;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager2.widget.ViewPager2;
+package com.example.music_app_artist.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager2.widget.ViewPager2;
+
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.music_app_artist.R;
+import com.example.music_app_artist.activities.PublishAlbumActivity;
+import com.example.music_app_artist.activities.PublishSongActivity;
 import com.example.music_app_artist.adapters.LibraryViewPager2Adapter;
 import com.example.music_app_artist.internals.SharePrefManagerUser;
 import com.example.music_app_artist.models.DefaultResponse;
@@ -23,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PublishActivity extends AppCompatActivity {
+public class PublishFragment extends Fragment {
 
     private TextView cntSongTxt, cntAlbumTxt;
     private LinearLayout btnPublishSong, btnPublishAlbum;
@@ -33,18 +40,30 @@ public class PublishActivity extends AppCompatActivity {
     private User user;
     private APIService apiService;
 
+    public PublishFragment() {
+        // Required empty public constructor
+    }
+
+    public static PublishFragment newInstance() {
+        return new PublishFragment();
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_publish);
+    }
 
-        mapping();
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_publish, container, false);
+        mapping(view);
 
-        user = SharePrefManagerUser.getInstance(getApplicationContext()).getUser();
+        user = SharePrefManagerUser.getInstance(requireContext()).getUser();
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getChildFragmentManager();
         adapter = new LibraryViewPager2Adapter(fragmentManager, getLifecycle());
         publishViewPager.setAdapter(adapter);
+
         publishTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -52,42 +71,26 @@ public class PublishActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabReselected(TabLayout.Tab tab) {}
         });
 
-        publishViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                publishTabLayout.selectTab(publishTabLayout.getTabAt(position));
-            }
+        btnPublishSong.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getActivity(), PublishSongActivity.class);
+            startActivity(intent);
         });
 
-        btnPublishSong.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(PublishActivity.this, PublishSongActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        btnPublishAlbum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(PublishActivity.this, PublishAlbumActivity.class);
-                startActivity(intent);
-            }
+        btnPublishAlbum.setOnClickListener(view12 -> {
+            Intent intent = new Intent(getActivity(), PublishAlbumActivity.class);
+            startActivity(intent);
         });
 
         getQuantityAlbums();
         getQuantitySongs();
 
+        return view;
     }
 
     private void getQuantitySongs() {
@@ -128,12 +131,12 @@ public class PublishActivity extends AppCompatActivity {
         });
     }
 
-    private void mapping() {
-        cntSongTxt = (TextView) findViewById(R.id.cntSongTxt);
-        cntAlbumTxt = (TextView) findViewById(R.id.cntAlbumTxt);
-        btnPublishSong = (LinearLayout) findViewById(R.id.btnPublishSong);
-        btnPublishAlbum = (LinearLayout) findViewById(R.id.btnPublishAlbum);
-        publishTabLayout = (TabLayout) findViewById(R.id.publishTabLayout);
-        publishViewPager = (ViewPager2) findViewById(R.id.publish_view_pager);
+    private void mapping(View view) {
+        cntSongTxt = view.findViewById(R.id.cntSongTxt);
+        cntAlbumTxt = view.findViewById(R.id.cntAlbumTxt);
+        btnPublishSong = view.findViewById(R.id.btnPublishSong);
+        btnPublishAlbum = view.findViewById(R.id.btnPublishAlbum);
+        publishTabLayout = view.findViewById(R.id.publishTabLayout);
+        publishViewPager = view.findViewById(R.id.publish_view_pager);
     }
 }
