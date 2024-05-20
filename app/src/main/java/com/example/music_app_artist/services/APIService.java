@@ -16,6 +16,7 @@ import com.example.music_app_artist.models.ResponseMessage;
 import com.example.music_app_artist.models.SongCommentResponse;
 import com.example.music_app_artist.models.SongResponse;
 import com.example.music_app_artist.models.SongsResponse;
+import com.example.music_app_artist.models.TokenResponse;
 import com.example.music_app_artist.models.UpdateUserResponse;
 import com.example.music_app_artist.models.UploadResponse;
 
@@ -122,4 +123,6 @@ public interface APIService {
     @PATCH("album/update")
     Call<ResponseMessage> updateAlbum(@Part("idAlbum") Long idAlbum, @Part MultipartBody.Part imageFile, @Part("albumName") String albumName);
 
+    @GET("token")
+    Call<TokenResponse> getToken();
 }
