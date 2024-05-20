@@ -116,7 +116,8 @@ public class SongDetailActivity extends AppCompatActivity {
                 assert res != null;
                 Toast.makeText(SongDetailActivity.this, res.getMessage(), Toast.LENGTH_SHORT).show();
                 if(res.isSuccess()) {
-                    Intent intent1 = new Intent(SongDetailActivity.this, HomeActivity.class);
+                    Intent intent1 = new Intent(SongDetailActivity.this, MainActivity.class);
+                    intent1.putExtra("id", R.id.menu_item_home);
                     startActivity(intent1);
                     finish();
                 }

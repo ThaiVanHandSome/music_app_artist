@@ -84,18 +84,22 @@ public class SignUpActivity extends AppCompatActivity {
         apiService.register(registerRequest).enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                disableWaiting();
                 RegisterResponse res = response.body();
                 if(res == null) {
                     Toast.makeText(SignUpActivity.this, "Encounter Error!", Toast.LENGTH_SHORT).show();
                 }
                 Toast.makeText(SignUpActivity.this, res.getMessage(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(SignUpActivity.this, OtpVerifyActivity.class);
-                intent.putExtra("type", "confirm");
-                startActivity(intent);
+                if(res.isSuccess()) {
+                    Intent intent = new Intent(SignUpActivity.this, OtpVerifyActivity.class);
+                    intent.putExtra("type", "confirm");
+                    startActivity(intent);
+                }
             }
 
             @Override
             public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                disableWaiting();
                 Log.d("error", t.toString());
                 Toast.makeText(SignUpActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
             }

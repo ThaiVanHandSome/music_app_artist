@@ -89,7 +89,8 @@ public class AlbumDetailActivity extends AppCompatActivity {
                 assert res != null;
                 Toast.makeText(AlbumDetailActivity.this, res.getMessage(), Toast.LENGTH_SHORT).show();
                 if(res.isSuccess()) {
-                    Intent intent1 = new Intent(AlbumDetailActivity.this, HomeActivity.class);
+                    Intent intent1 = new Intent(AlbumDetailActivity.this, MainActivity.class);
+                    intent1.putExtra("id", R.id.menu_item_home);
                     startActivity(intent1);
                     finish();
                 }

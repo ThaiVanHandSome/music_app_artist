@@ -58,6 +58,9 @@
             android:name=".activities.UpdateArtistProfileActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.OtpVerifyActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.ArtistProfileActivity"
             android:exported="false" />
         <activity

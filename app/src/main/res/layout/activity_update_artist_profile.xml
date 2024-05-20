@@ -31,7 +31,6 @@
             android:id="@+id/artistNameTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tên nghệ sĩ"
             android:textColor="@color/neutral5"
             android:textSize="@dimen/font_display"
             android:gravity="center"
@@ -110,7 +109,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/neutral5"
-            android:text="abc@gmail.com"
             />
     </LinearLayout>
     <com.google.android.material.button.MaterialButton

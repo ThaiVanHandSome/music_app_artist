@@ -7,10 +7,10 @@
     <item
         android:id="@+id/menu_item_profile"
         android:title="@string/menu_item_profile"
-        android:icon="@drawable/navigation_icon_search_selector"/>
+        android:icon="@drawable/ic_32dp_filled_account_circle"/>
     <item
         android:id="@+id/menu_item_publish"
         android:title="@string/menu_item_publish"
-        android:icon="@drawable/navigation_icon_library_selector"/>
+        android:icon="@drawable/ic_24dp_outline_library_add"/>
 </menu>
 

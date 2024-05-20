@@ -103,8 +103,11 @@ public class PublishSongActivity extends AppCompatActivity {
                 Uri uri = data.getData();
                 mUri = uri;
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                    songImage.setImageBitmap(bitmap);
+                    Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                    int desiredWidth = 240;
+                    int desiredHeight = 240;
+                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, desiredWidth, desiredHeight, true);
+                    songImage.setImageBitmap(scaledBitmap);
                     System.out.println(mUri);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -172,7 +175,6 @@ public class PublishSongActivity extends AppCompatActivity {
         categoryAdapter = new CategoryAdapter(getApplicationContext(), categories, null);
         listCategory.setAdapter(categoryAdapter);
         listCategory.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        listCategory.addItemDecoration(new BottomOffsetDecoration(getResources().getDimensionPixelSize(R.dimen.bottom_offset)));
         getAllCategories();
     }
 
@@ -277,7 +279,8 @@ public class PublishSongActivity extends AppCompatActivity {
                 if(res.getSuccess()) {
                     Song song = res.getData();
                     sendNotification(song);
-                    Intent intent = new Intent(PublishSongActivity.this, PublishActivity.class);
+                    Intent intent = new Intent(PublishSongActivity.this, MainActivity.class);
+                    intent.putExtra("id", R.id.menu_item_publish);
                     startActivity(intent);
                 }
             }

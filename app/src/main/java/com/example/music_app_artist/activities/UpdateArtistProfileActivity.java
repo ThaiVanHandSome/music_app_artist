@@ -158,6 +158,7 @@ public class UpdateArtistProfileActivity extends AppCompatActivity {
                     editor.putInt("keygender", user1.getGender());
                     editor.apply();
                     Intent intent = new Intent(UpdateArtistProfileActivity.this, MainActivity.class);
+                    intent.putExtra("id", R.id.menu_item_profile);
                     startActivity(intent);
                     finish();
                 }
