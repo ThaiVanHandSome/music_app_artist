@@ -346,23 +346,26 @@ public class PublishSongActivity extends AppCompatActivity {
                 assert res != null;
                 if(res.getSuccess()) {
                     ids = res.getData();
-                    Log.e("NotificationFirebase", ids.toString());
+                    Log.e("NotificationFirebase1", ids.toString());
                     if (ids != null && !ids.isEmpty()) {
-                        Log.e("NotificationFirebase", ids.toString());
+                        Log.e("NotificationFirebase2", ids.toString());
                         FirebaseDatabase database = FirebaseDatabase.getInstance("https://music-app-967da-default-rtdb.asia-southeast1.firebasedatabase.app/");
-                        Log.e("NotificationFirebase", database.toString());
+                        Log.e("NotificationFirebase3", database.toString());
                         FirebaseNotification notification = new FirebaseNotification();
                         for (int i = 0; i < ids.size(); i++) {
                             int id = Math.toIntExact(ids.get(i));
-                            Log.e("NotificationFirebase", String.valueOf(id));
+                            Log.e("NotificationFirebase4", String.valueOf(id));
                             DatabaseReference tokenRef = database.getReference("tokenPhone").child(String.valueOf(id));
+                            Log.e("NotificationFirebase4.1", String.valueOf(tokenRef));
 
                             tokenRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    String token = (String) snapshot.getValue();
-                                    Log.e("NotificationFirebase", token);
-                                    notification.sendNotificationToUser( song, token);
+                                    Log.e("NotificationFirebase5", "code chay vao day");
+                                    String receiverToken = snapshot.getValue(String.class);
+                                    Log.e("NotificationFirebase6", receiverToken);
+
+                                    notification.getToken(song, receiverToken);
                                 }
 
                                 @Override
